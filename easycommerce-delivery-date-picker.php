@@ -16,8 +16,10 @@
 class Delivery_Date_Picker {
 
     public function __construct() {
-        add_action( 'init' , [ $this , 'picker' ] );
-        //add_action( 'easycommerce_after_cart_items' , [ $this , 'picker' ] );
+       
+        add_action( 'easycommerce-before_cart_summary' , [ $this , 'picker' ] );
+       
+
     }
 
     public function picker() {
