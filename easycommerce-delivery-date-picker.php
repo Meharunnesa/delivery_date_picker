@@ -18,6 +18,7 @@ class Delivery_Date_Picker {
 
     public function __construct() {
         add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
+        add_action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_scripts' ] );
         add_action( 'easycommerce-before_cart_summary' , [ $this , 'picker' ] );
         add_action( 'easycommerce_after_order', [ $this, 'save_delivery_date_time' ], 10, 2 );
         add_filter( 'easycommerce_get_single_order_data', [ $this, 'date_store_from_order' ], 10, 2 );
@@ -41,6 +42,16 @@ class Delivery_Date_Picker {
 			true
 		);
 	}
+
+    public function admin_enqueue_scripts() {
+        wp_enqueue_script(
+			'easycommerce-admin-delivery-date',
+			plugins_url( 'assets/js/main.js', __FILE__ ),
+			[ 'jquery', 'jquery-ui-datepicker' ],
+			'1.1',
+			true
+		);
+    }
 
     public function picker() {
         $picker = new Picker;
@@ -67,7 +78,7 @@ class Delivery_Date_Picker {
 
     public function date_store_from_order( $order_data , $order_id ) {
        
-		$order 					 	 = new Order( $order_id );
+		$order 					 = new Order( $order_id );
         $delivery_date 		 	 = $order->get_meta( 'delivery_date' );
         $delivery_time 		 	 = $order->get_meta( 'delivery_time' );
         $order_data['delivery_date'] = $delivery_date ?: 'N/A';
