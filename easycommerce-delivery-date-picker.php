@@ -21,6 +21,7 @@ class Delivery_Date_Picker {
         add_action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_scripts' ] );
         add_action( 'easycommerce-before_cart_summary' , [ $this , 'picker' ] );
         add_action( 'easycommerce_after_order', [ $this, 'save_delivery_date_time' ], 10, 2 );
+        add_filter( 'easycommerce-localized_vars', array( $this, 'add_localized_vars' ) );
         add_filter( 'easycommerce_get_single_order_data', [ $this, 'date_store_from_order' ], 10, 2 );
         add_filter( 'easycommerce_updater', [ $this, 'update' ] );
     }
@@ -56,6 +57,14 @@ class Delivery_Date_Picker {
     public function picker() {
         $picker = new Picker;
         $picker->date_time_picker();
+    }
+
+    public function add_localized_vars( $vars ) {
+        $vars['delivery_date_localized'] = array(
+            'delivery_date_icon_url' => plugin_dir_url( __FILE__ ) . 'assets/img/calendar-icon.png',
+            'delivery_clock_icon_url' => plugin_dir_url( __FILE__ ) . 'assets/img/clock.png',
+        );
+    return $vars;
     }
 
     public function save_delivery_date_time( $order_id , $params ) {

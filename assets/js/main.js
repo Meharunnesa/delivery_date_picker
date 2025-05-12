@@ -40,18 +40,32 @@ jQuery(document).ready(function ($) {
     window.easycommerceFilters["easycommerce_admin_side_order_infos"] = function (orderData, order) {
         return (existingFilters ? existingFilters(orderData, order) : orderData).concat([
             {
-                icon: "https://cdn-icons-png.flaticon.com/512/747/747310.png", 
+                icon: EASYCOMMERCE.delivery_date_localized.delivery_date_icon_url, 
                 key: "Delivery Date",
-                value: order?.delivery_date
+                value: React.createElement(
+                    'p',
+                    {
+                        className:
+                            'text-ec-body font-inter font-medium text-base leading-[26px] text-[#0073aa]',
+                    },
+                    order?.delivery_date
                     ? order.delivery_date
-                    : "Not selected//",
+                    : "N/A"
+                ),
             },
             {
-                icon: "https://cdn-icons-png.flaticon.com/512/61/61112.png", 
+                icon: EASYCOMMERCE.delivery_date_localized.delivery_clock_icon_url, 
                 key: "Delivery Time",
-                value: order?.delivery_time
+                value: React.createElement(
+                    'p',
+                    {
+                        className:
+                            'text-ec-body font-inter font-medium text-base leading-[26px] text-[#0073aa]',
+                    },
+                    order?.delivery_time
                     ? order.delivery_time
-                    : "Not selected//",
+                    : "N/A"
+                ),
             },
         ]);
     };
